@@ -1,6 +1,5 @@
 public class FineList 
 {
-
     private final Node head;
     private final Node tail;
 
@@ -14,21 +13,123 @@ public class FineList
 
     public boolean add(int value) 
     {
-        // TODO:
-        // Use hand-over-hand locking.
-        return false;
+        Node pred = head;
+        pred.lock.lock();
+
+        try 
+        {
+            Node curr = pred.next;
+            curr.lock.lock();
+
+            try 
+            {
+                while (curr.value < value) 
+                {
+                    pred.lock.unlock();
+
+                    pred = curr;
+                    curr = curr.next;
+
+                    curr.lock.lock();
+                }
+
+                if (curr.value == value) 
+                {
+                    return false;
+                }
+
+                Node newNode = new Node(value);
+
+                newNode.next = curr;
+                pred.next = newNode;
+
+                return true;
+            } 
+            finally 
+            {
+                curr.lock.unlock();
+            }
+        } 
+        finally 
+        {
+            pred.lock.unlock();
+        }
     }
 
     public boolean remove(int value) 
     {
-        // TODO:
-        // Use hand-over-hand locking.
-        return false;
+        Node pred = head;
+        pred.lock.lock();
+
+        try 
+        {
+            Node curr = pred.next;
+            curr.lock.lock();
+
+            try 
+            {
+                while (curr.value < value) 
+                {
+                    pred.lock.unlock();
+
+                    pred = curr;
+                    curr = curr.next;
+
+                    curr.lock.lock();
+                }
+
+                if (curr.value != value) 
+                {
+                    return false;
+                }
+
+                pred.next = curr.next;
+
+                return true;
+            } 
+            finally 
+            {
+                curr.lock.unlock();
+            }
+        } 
+        finally 
+        {
+            pred.lock.unlock();
+        }
     }
 
     public boolean contains(int value) 
     {
-        // TODO
-        return false;
+        Node pred = head;
+        pred.lock.lock();
+
+        try 
+        {
+            Node curr = pred.next;
+            curr.lock.lock();
+
+            try 
+            {
+                while (curr.value < value) 
+                {
+                    pred.lock.unlock();
+
+                    pred = curr;
+                    curr = curr.next;
+
+                    curr.lock.lock();
+                }
+
+                return curr.value == value;
+            } 
+            finally 
+            {
+                curr.lock.unlock();
+            }
+        } 
+        finally 
+        {
+            pred.lock.unlock();
+        }
     }
 }
