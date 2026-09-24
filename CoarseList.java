@@ -3,6 +3,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class CoarseList 
 {
+
     private final Node head;
     private final Node tail;
 
@@ -17,28 +18,27 @@ public class CoarseList
     }
 
     public boolean add(int value) 
-    {   //TODO
+    {
         lock.lock();
+
         try 
         {
             Node pred = head;
             Node curr = pred.next;
 
-            // Traverse until we find a node with value >= target value
             while (curr.value < value) 
             {
                 pred = curr;
                 curr = curr.next;
             }
 
-            // Element already exists; do not insert duplicates
             if (curr.value == value) 
             {
                 return false;
             }
 
-            // Insert new node between pred and curr
             Node newNode = new Node(value);
+
             newNode.next = curr;
             pred.next = newNode;
 
@@ -52,27 +52,24 @@ public class CoarseList
 
     public boolean remove(int value) 
     {
-        //TODO
         lock.lock();
+
         try 
         {
             Node pred = head;
             Node curr = pred.next;
 
-            // Traverse until we reach or pass target value
             while (curr.value < value) 
             {
                 pred = curr;
                 curr = curr.next;
             }
 
-            // Element not present in list
             if (curr.value != value) 
             {
                 return false;
             }
 
-            // Unlink curr
             pred.next = curr.next;
 
             return true;
@@ -85,13 +82,12 @@ public class CoarseList
 
     public boolean contains(int value) 
     {
-        //TODO
         lock.lock();
+
         try 
         {
-            Node curr = head.next;
+            Node curr = head;
 
-            // Traverse until we reach or pass target value
             while (curr.value < value) 
             {
                 curr = curr.next;
