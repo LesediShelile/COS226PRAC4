@@ -1,0 +1,16 @@
+
+Threads: 2
+CoarseList execution time: 159.0 ms
+FineList execution time: 46.0 ms
+
+Threads: 4
+CoarseList execution time: 41.0 ms
+FineList execution time: 97.0 ms
+
+Threads: 8
+CoarseList execution time: 98.0 ms
+FineList execution time: 480.0 ms
+
+Threads: 16
+CoarseList execution time: 426.0 ms
+FineList execution time: 996.0 ms
